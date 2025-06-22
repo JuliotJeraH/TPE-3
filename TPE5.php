@@ -8,65 +8,77 @@
 <body>
     <h1>Lecture Spirale à l'envers</h1>
     <?php 
-    $n = 5;
-    $tab = array(array());
+    $taille = 5;
+    $tableau = array(array());
     echo "<h1>Tableau bidimensionnel:</h1>";
-    for ($i = 0; $i < $n; $i++) {
-        for ($j = 0; $j < $n; $j++) {
-            $tab[$i][$j] = rand(0, 10);
+    for ($ligne = 0; $ligne < $taille; $ligne++) {
+        for ($colonne = 0; $colonne < $taille; $colonne++) {
+            $tableau[$ligne][$colonne] = rand(0, 10);
         }   
     }
 
     echo "<table border='1' style='border-collapse: collapse;'>";
-    foreach ($tab as $i) {
+    foreach ($tableau as $ligne) {
         echo "<tr>";
-        foreach ($i as $r) {
-            echo "<td style='padding: 5px; text-align: center;'>$r</td>";
+        foreach ($ligne as $valeur) {
+            echo "<td style='padding: 5px; text-align: center;'>$valeur</td>";
         }
         echo "</tr>";
     }
     echo "</table>";
 
-    echo "<h1>Affichage en spirale à l'envers:</h1>";
-    $spirale = array();
-    $top = 0;
-    $bottom = $n - 1;
-    $left = 0;
-    $right = $n - 1;
+    // Fonction pour lecture en spirale inversée
+    function lectureSpiraleInversee($tableauBidimensionnel) {
+        $taille = count($tableauBidimensionnel);
+        $spirale = array();
+        $haut = 0;
+        $bas = $taille - 1;
+        $gauche = 0;
+        $droite = $taille - 1;
 
-    while ($top <= $bottom && $left <= $right) {
-        // Traverse from bottom to top
-        if ($left <= $right) {
-            for ($i = $bottom; $i >= $top; $i--) {
-                $spirale[] = $tab[$i][$left];
+        while ($haut <= $bas && $gauche <= $droite) {
+            // Bas vers haut
+            if ($gauche <= $droite) {
+                for ($ligne = $bas; $ligne >= $haut; $ligne--) {
+                    $spirale[] = $tableauBidimensionnel[$ligne][$gauche];
+                }
+                $gauche++;
             }
-            $left++;
-        }
 
-        // Traverse from right to left
-        if ($top <= $bottom) {
-            for ($i = $right; $i >= $left; $i--) {
-                $spirale[] = $tab[$bottom][$i];
+            // Droite vers gauche
+            if ($haut <= $bas) {
+                for ($colonne = $droite; $colonne >= $gauche; $colonne--) {
+                    $spirale[] = $tableauBidimensionnel[$bas][$colonne];
+                }
+                $bas--;
             }
-            $bottom--;
+
+            // Haut vers bas
+            if ($gauche <= $droite) {
+                for ($ligne = $haut; $ligne <= $bas; $ligne++) {
+                    $spirale[] = $tableauBidimensionnel[$ligne][$droite];
+                }
+                $droite--;
+            }
+
+            // Gauche vers droite
+            if ($haut <= $bas) {
+                for ($colonne = $gauche; $colonne <= $droite; $colonne++) {
+                    $spirale[] = $tableauBidimensionnel[$haut][$colonne];
+                }
+                $haut++;
+            }
         }
 
-        // Traverse from top to bottom
-        for ($i = $top; $i <= $bottom; $i++) {
-            $spirale[] = $tab[$i][$right];
-        }
-        $right--;
-
-        // Traverse from left to right
-        for ($i = $left; $i <= $right; $i++) {
-            $spirale[] = $tab[$top][$i];
-        }
-        $top++;
+        return $spirale;
     }
 
+
+    $spiraleInversee = lectureSpiraleInversee($tableau);
+    echo "<h1>Affichage en spirale à l'envers:</h1>";
     echo "<table border='1' style='border-collapse: collapse;'><tr>";
-    foreach ($spirale as $value) {
-        echo "<td style='padding: 5px; text-align: center;'>$value</td>";
+    foreach ($spiraleInversee as $valeur) {
+        echo "<td style='padding: 5px; text-align: center;'>$valeur</td>";
     }
     echo "</tr></table>";
     ?>

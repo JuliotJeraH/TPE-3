@@ -9,27 +9,27 @@
     <h1> Générateur de spirale </h1>
     <?php 
     extract($_GET);
-     $tab=array(array());
+    $tableau = array(array());
     echo "<h1>Tableau bidimensionnel:</h1>";
-     for($i=0;$i<$n;$i++){
-         for($j=0;$j<$n;$j++){
-             $tab[$i][$j]=rand(0,10);
-         }   
-     }
+    for ($ligne = 0; $ligne < $n; $ligne++) {
+        for ($colonne = 0; $colonne < $n; $colonne++) {
+            $tableau[$ligne][$colonne] = rand(0, 10);
+        }   
+    }
  
     echo "<table border='1' style='border-collapse: collapse;'>";
-    foreach($tab as $i){
+    foreach ($tableau as $ligne) {
         echo "<tr>";
-        foreach($i as $r){
-            echo "<td style='padding: 5px; text-align: center;'>$r</td>";
+        foreach ($ligne as $valeur) {
+            echo "<td style='padding: 5px; text-align: center;'>$valeur</td>";
         }
         echo "</tr>";
     }
     echo "</table>";
-    $json = json_encode($tab, JSON_PRETTY_PRINT);
+    $json = json_encode($tableau, JSON_PRETTY_PRINT);
     file_put_contents("Spirale.json", $json);
 
-    echo "Voire fichier \"Spirale.json\"";
+    echo "Voir fichier \"Spirale.json\"";
     
     ?>
 </body>
